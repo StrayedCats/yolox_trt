@@ -60,10 +60,6 @@ cd ~/ros2_ws/src
 git clone https://github.com/StrayedCats/yolox_trt.git -b humble
 
 # ビルド
-export TRT_ROOT=${HOME}/TensorRT-8.6.1.6/targets/x86_64-linux-gnu
-export CPLUS_INCLUDE_PATH=${TRT_ROOT}/include:${CPLUS_INCLUDE_PATH}
-export LD_LIBRARY_PATH=${TRT_ROOT}/lib:${LD_LIBRARY_PATH}
-
 cd ~/ros2_ws
 colcon build
 ```
