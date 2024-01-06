@@ -29,7 +29,7 @@
 #include "coco_names.hpp"
 #include "tensorrt_logging.h"
 
-namespace yolox_cpp{
+namespace yolox_trt{
     using namespace nvinfer1;
 
     #define CHECK(status) \
@@ -64,4 +64,4 @@ namespace yolox_cpp{
             const int outputIndex_ = 1;
 
     };
-} // namespace yolox_cpp
+} // namespace yolox_trt

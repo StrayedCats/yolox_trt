@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "yolox_cpp/yolox_tensorrt.hpp"
+#include "yolox_trt/yolox_tensorrt.hpp"
 
-namespace yolox_cpp{
+namespace yolox_trt{
 
     YoloXTensorRT::YoloXTensorRT(file_name_t path_to_engine, int device,
                                  float nms_th, float conf_th, std::string model_version,
@@ -127,5 +127,5 @@ namespace yolox_cpp{
         CHECK(cudaFree(buffers[1]));
     }
 
-} // namespace yolox_cpp
+} // namespace yolox_trt
 

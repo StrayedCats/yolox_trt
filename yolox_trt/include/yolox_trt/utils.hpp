@@ -21,7 +21,7 @@
 #include "core.hpp"
 #include "coco_names.hpp"
 
-namespace yolox_cpp{
+namespace yolox_trt{
     namespace utils{
 
         static std::vector<std::string> read_class_labels_file(file_name_t file_name)

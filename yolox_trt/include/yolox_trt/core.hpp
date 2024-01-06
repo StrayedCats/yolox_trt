@@ -16,7 +16,7 @@
 
 #include <opencv2/core/types.hpp>
 
-namespace yolox_cpp
+namespace yolox_trt
 {
 /**
  * @brief Define names based depends on Unicode path support

@@ -25,7 +25,7 @@
 #include <sstream>
 #include <string>
 
-namespace yolox_cpp
+namespace yolox_trt
 {
 
     using Severity = nvinfer1::ILogger::Severity;
@@ -457,11 +457,11 @@ namespace yolox_cpp
         Severity mReportableSeverity;
     }; // class Logger
 
-} // namespace yolox_cpp
+} // namespace yolox_trt
 
 namespace
 {
-    using namespace yolox_cpp;
+    using namespace yolox_trt;
     //!
     //! \brief produces a LogStreamConsumer object that can be used to log messages of severity kVERBOSE
     //!

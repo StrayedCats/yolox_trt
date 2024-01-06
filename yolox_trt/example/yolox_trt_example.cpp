@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "yolox_cpp/yolox_tensorrt.hpp"
-#include "yolox_cpp/utils.hpp"
+#include "yolox_trt/yolox_tensorrt.hpp"
+#include "yolox_trt/utils.hpp"
 
 int main(int argc, char** argv)
 {
@@ -22,14 +22,14 @@ int main(int argc, char** argv)
         return -1;
     }
 
-    yolox_cpp::YoloXTensorRT yolo(argv[1]);
+    yolox_trt::YoloXTensorRT yolo(argv[1]);
     std::string image_path = argv[2];
     std::string image_path_out = image_path.substr(0, image_path.find_last_of(".")) + "_out.jpg";
 
     cv::Mat frame = cv::imread(image_path);
     auto objects = yolo.inference(frame);
 
-    yolox_cpp::utils::draw_objects(frame, objects);
+    yolox_trt::utils::draw_objects(frame, objects);
     cv::imwrite(image_path_out, frame);
 
     return 0;

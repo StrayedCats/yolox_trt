@@ -14,7 +14,7 @@
 
 #pragma once
 
-namespace yolox_cpp{
+namespace yolox_trt{
     static const std::vector<std::string> COCO_CLASSES = {
         "person", "bicycle", "car", "motorcycle", "airplane", "bus", "train", "truck", "boat", "traffic light",
         "fire hydrant", "stop sign", "parking meter", "bench", "bird", "cat", "dog", "horse", "sheep", "cow",

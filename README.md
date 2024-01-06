@@ -16,7 +16,7 @@ TensorRTのインストール方法を説明します。
 TensorRTのバージョンは8以降であれば特に問題なく使用できると思いますが、NVIDIAドライバとCUDAのバージョンには注意してください。この関係で、上記の動作環境ではdpkg経由のインストールができていませんが、他のシステムでは可能かもしれません。
 
 ### インストール環境
-- TensorRT: 8.6
+- TensorRT: 8.6 GA
 
 ### TensorRTのダウンロード
 [ダウンロードサイト](https://developer.nvidia.com/nvidia-tensorrt-8x-download)にアクセスして、`TensorRT 8.6 GA for Linux x86_64 and CUDA 12.0 and 12.1 TAR Package`をダウンロードします。
@@ -34,7 +34,7 @@ YOLOXのモデルをTensorRTに変換する方法を説明します。
 
 ### モデルと画像のダウンロード
 
-YOLOX-Tinyのモデルと画像をダウンロードします。
+YOLOX-Tinyのモデルと犬の画像をダウンロードします。
 
 ```bash
 wget https://github.com/Megvii-BaseDetection/YOLOX/releases/download/0.1.1rc0/yolox_tiny.onnx -O ${HOME}/yolox_tiny.onnx
