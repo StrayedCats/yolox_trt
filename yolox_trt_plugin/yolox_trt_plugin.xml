@@ -1,0 +1,5 @@
+<library path="yolox_trt_plugin">
+    <class type="detector2d_plugins::YoloxTrt" base_class_type="detector2d_base::Detector">
+        <description>publish image center example</description>
+    </class>
+</library>
