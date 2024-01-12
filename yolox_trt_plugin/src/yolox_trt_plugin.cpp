@@ -20,14 +20,34 @@ namespace detector2d_plugins
 void YoloxTrt::init(const detector2d_parameters::ParamListener & param_listener)
 {
   (void)param_listener;
+  
+  //TODO : get path to engine from param_listener
+  std::string path_to_engine_ = "./src/yolox_trt/weight/yolox_tiny.trt";
+  yolo = std::make_shared<yolox_trt::YoloXTensorRT>(path_to_engine_);
+  
+  //TODO : get bool from param_listener
 }
+
 Detection2DArray YoloxTrt::detect(const cv::Mat & image)
 {
   (void)image;
+
   std::cout << "YoloxTrt::detect" << std::endl;
+
+  auto objects = yolo->inference(image);
+  yolox_trt::utils::draw_objects(image, objects);
+
+  cv::imshow("yolox", image);
+  auto key = cv::waitKey(1);
+  if (key == 27)
+  {
+    rclcpp::shutdown();
+  }
 
   Detection2DArray pose;
   return pose;
+  
+  //TODO : get bool from param_listener
 }
 }
 

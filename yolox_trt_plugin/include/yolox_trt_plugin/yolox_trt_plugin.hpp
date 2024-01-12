@@ -17,6 +17,10 @@
 #include <detector2d_base/detector2d_base.hpp>
 #include <detector2d_param/detector2d_param.hpp>
 #include <vision_msgs/msg/detection2_d_array.hpp>
+#include <opencv2/opencv.hpp>
+
+#include "yolox_trt/yolox_tensorrt.hpp"
+#include "yolox_trt/utils.hpp"
 
 namespace detector2d_plugins
 {
@@ -26,5 +30,10 @@ class YoloxTrt : public detector2d_base::Detector
 public:
   void init(const detector2d_parameters::ParamListener &) override;
   Detection2DArray detect(const cv::Mat &) override;
+  
+private:
+  std::string model_path_;
+  std::shared_ptr<yolox_trt::YoloXTensorRT> yolo;
+
 };
 }
