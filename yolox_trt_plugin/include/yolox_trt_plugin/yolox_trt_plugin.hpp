@@ -21,6 +21,7 @@
 
 #include "yolox_trt/yolox_tensorrt.hpp"
 #include "yolox_trt/utils.hpp"
+#include "yolox_trt/coco_names.hpp"
 
 namespace detector2d_plugins
 {
@@ -35,5 +36,6 @@ private:
   std::string model_path_;
   std::shared_ptr<yolox_trt::YoloXTensorRT> yolo;
 
+  Detection2DArray objects_to_detection2d_array(cv::Mat frame ,const std::vector<yolox_trt::Object> & objects);
 };
 }

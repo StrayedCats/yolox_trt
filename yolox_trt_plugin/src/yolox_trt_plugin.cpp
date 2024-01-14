@@ -32,7 +32,7 @@ Detection2DArray YoloxTrt::detect(const cv::Mat & image)
 {
   (void)image;
 
-  std::cout << "YoloxTrt::detect" << std::endl;
+  std::cout << "YoloxTrt::detect1" << std::endl;
 
   auto objects = yolo->inference(image);
   yolox_trt::utils::draw_objects(image, objects);
@@ -44,12 +44,43 @@ Detection2DArray YoloxTrt::detect(const cv::Mat & image)
     rclcpp::shutdown();
   }
 
-  Detection2DArray pose;
-  return pose;
+  auto boxes = this->objects_to_detection2d_array(image, objects);
+  return boxes;
   
   //TODO : get bool from param_listener
 }
+
+Detection2DArray YoloxTrt::objects_to_detection2d_array(cv::Mat frame ,const std::vector<yolox_trt::Object> & objects)
+{
+  Detection2DArray boxes;
+  boxes.header.stamp = rclcpp::Clock(RCL_ROS_TIME).now();
+  for (auto obj : objects)
+  {
+    vision_msgs::msg::Detection2D detection;
+
+    vision_msgs::msg::ObjectHypothesisWithPose hypothesis;
+    hypothesis.hypothesis.class_id = yolox_trt::COCO_CLASSES[obj.label];
+    hypothesis.hypothesis.score = obj.prob;
+    detection.results.push_back(hypothesis);
+
+    detection.bbox.center.position.x = obj.rect.x + obj.rect.width / 2;
+    detection.bbox.center.position.y = obj.rect.y + obj.rect.height / 2;
+
+    // detection.results.pose is undefined
+
+    detection.bbox.size_x = obj.rect.width;
+    detection.bbox.size_y = obj.rect.height;
+    // detection.bbox.theta is undefined
+    detection.bbox.size_x = frame.cols;
+    detection.bbox.size_y = frame.rows;
+    
+    boxes.detections.push_back(detection);
+  }
+
+  return boxes;
 }
+
+}// namespace detector2d_plugins
 
 #include <pluginlib/class_list_macros.hpp>
 PLUGINLIB_EXPORT_CLASS(detector2d_plugins::YoloxTrt, detector2d_base::Detector)
