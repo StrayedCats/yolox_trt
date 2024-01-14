@@ -75,3 +75,7 @@ ros2 run yolox_trt yolox_trt_example ${HOME}/yolox_tiny.trt ${HOME}/dog.jpg
 
 実行結果は、${HOME}/dog_out.jpgに保存されます。
 
+### nodeでの実行
+```bash
+ros2 run detector2d_node detector2d_node_exec --ros-args -p load_target_plugin:=detector2d_plugins::YoloxTrt  -p yolox_trt_plugin.model_path:=/path/to/engine.trt -p yolox_trt_plugin.imshow_isshow:=false
+```
