@@ -19,43 +19,36 @@ namespace detector2d_plugins
 
 void YoloxTrt::init(const detector2d_parameters::ParamListener & param_listener)
 {
-  (void)param_listener;
-  
-  //TODO : get path to engine from param_listener
-  std::string path_to_engine_ = "./src/yolox_trt/weight/yolox_tiny.trt";
-  yolo = std::make_shared<yolox_trt::YoloXTensorRT>(path_to_engine_);
-  
-  //TODO : get bool from param_listener
+  params_ = param_listener.get_params();
+  yolo = std::make_shared<yolox_trt::YoloXTensorRT>(this->params_.yolox_trt_plugin.model_path);
+  std::cout << "trt model loaded : " << this->params_.yolox_trt_plugin.model_path << std::endl;
 }
 
 Detection2DArray YoloxTrt::detect(const cv::Mat & image)
 {
-  (void)image;
-
   std::cout << "YoloxTrt::detect1" << std::endl;
 
   auto objects = yolo->inference(image);
   yolox_trt::utils::draw_objects(image, objects);
 
-  cv::imshow("yolox", image);
-  auto key = cv::waitKey(1);
-  if (key == 27)
-  {
-    rclcpp::shutdown();
+  if (!this->params_.yolox_trt_plugin.imshow_isshow) {
+    cv::imshow("yolox", image);
+    auto key = cv::waitKey(1);
+    if (key == 27) {
+      rclcpp::shutdown();
+    }
   }
 
   auto boxes = this->objects_to_detection2d_array(image, objects);
   return boxes;
-  
-  //TODO : get bool from param_listener
 }
 
-Detection2DArray YoloxTrt::objects_to_detection2d_array(cv::Mat frame ,const std::vector<yolox_trt::Object> & objects)
+Detection2DArray YoloxTrt::objects_to_detection2d_array(
+  cv::Mat frame,
+  const std::vector<yolox_trt::Object> & objects)
 {
   Detection2DArray boxes;
-  boxes.header.stamp = rclcpp::Clock(RCL_ROS_TIME).now();
-  for (auto obj : objects)
-  {
+  for (auto obj : objects) {
     vision_msgs::msg::Detection2D detection;
 
     vision_msgs::msg::ObjectHypothesisWithPose hypothesis;
@@ -73,7 +66,7 @@ Detection2DArray YoloxTrt::objects_to_detection2d_array(cv::Mat frame ,const std
     // detection.bbox.theta is undefined
     detection.bbox.size_x = frame.cols;
     detection.bbox.size_y = frame.rows;
-    
+
     boxes.detections.push_back(detection);
   }
 

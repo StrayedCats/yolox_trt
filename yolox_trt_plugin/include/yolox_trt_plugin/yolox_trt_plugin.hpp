@@ -31,11 +31,13 @@ class YoloxTrt : public detector2d_base::Detector
 public:
   void init(const detector2d_parameters::ParamListener &) override;
   Detection2DArray detect(const cv::Mat &) override;
-  
+
 private:
-  std::string model_path_;
   std::shared_ptr<yolox_trt::YoloXTensorRT> yolo;
 
-  Detection2DArray objects_to_detection2d_array(cv::Mat frame ,const std::vector<yolox_trt::Object> & objects);
+  Detection2DArray objects_to_detection2d_array(
+    cv::Mat frame,
+    const std::vector<yolox_trt::Object> & objects);
+  detector2d_parameters::Params params_;
 };
 }
