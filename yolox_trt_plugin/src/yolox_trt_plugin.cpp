@@ -59,13 +59,8 @@ Detection2DArray YoloxTrt::objects_to_detection2d_array(
     detection.bbox.center.position.x = obj.rect.x + obj.rect.width / 2;
     detection.bbox.center.position.y = obj.rect.y + obj.rect.height / 2;
 
-    // detection.results.pose is undefined
-
     detection.bbox.size_x = obj.rect.width;
     detection.bbox.size_y = obj.rect.height;
-    // detection.bbox.theta is undefined
-    detection.bbox.size_x = frame.cols;
-    detection.bbox.size_y = frame.rows;
 
     boxes.detections.push_back(detection);
   }
