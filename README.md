@@ -7,8 +7,9 @@ TensorRTのインストール方法を説明します。
 
 ### 動作環境
 - OS: Ubuntu 22.04
-- Driver version: 535.129.03 (aptでインストール)
-- CUDA: 12.2 (CUDA-Toolkitをaptでインストール、cuDNNは不要)
+- Driver version: 545.29.06 (aptでインストール)
+- CUDA: 12.3 (CUDA-Toolkitをaptでインストール)
+- libcudnn8-dev
 - ROS distro: Humble
 - CPU: Intel CPU (x86_64)
 - GPU: RTX3060Ti
@@ -49,6 +50,8 @@ trtexecで生成されたバイナリは、他のデバイス・環境で実行�
 
 ```bash
 export TRT_ROOT=${HOME}/TensorRT-8.6.1.6/targets/x86_64-linux-gnu
+export LD_LIBRARY_PATH=LD_LIBRARY_PATH=:${TRT_ROOT}/lib
+
 $TRT_ROOT/bin/trtexec --onnx=${HOME}/yolox_tiny.onnx --saveEngine=${HOME}/yolox_tiny.trt --fp16 --verbose --workspace=$((1<<16))
 ```
 
