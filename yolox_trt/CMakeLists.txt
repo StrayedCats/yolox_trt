@@ -11,9 +11,13 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
+find_package(ament_cmake_auto REQUIRED)
+ament_auto_find_build_dependencies()
+
 find_package(ament_cmake REQUIRED)
 find_package(CUDA REQUIRED)
 find_package(OpenCV REQUIRED)
+
 link_directories(~/TensorRT-8.6.1.6/targets/x86_64-linux-gnu/lib) # change to your TensorRT path
 set(TensorRT_INCLUDE_DIR ~/TensorRT-8.6.1.6/targets/x86_64-linux-gnu/include) # change to your TensorRT path
 
@@ -24,8 +28,20 @@ include_directories(
   ${TensorRT_INCLUDE_DIR}
 )
 
-add_library(${PROJECT_NAME} SHARED src/yolox_tensorrt.cpp)
-target_link_libraries(${PROJECT_NAME} nvinfer nvinfer_plugin nvparsers nvonnxparser ${OpenCV_LIBS} ${CUDA_LIBRARIES})
+set(TARGET_LIBS
+  nvinfer
+  nvinfer_plugin
+  nvparsers
+  nvonnxparser
+)
+
+set(TARGET_DPENDENCIES
+  ${CUDA_LIBRARIES}
+  ${OpenCV_LIBS}
+)
+
+ament_auto_add_library(${PROJECT_NAME} SHARED src/yolox_tensorrt.cpp)
+target_link_libraries(${PROJECT_NAME} ${TARGET_DPENDENCIES} ${TARGET_LIBS})
 
 add_executable(yolox_trt_example example/yolox_trt_example.cpp)
 target_link_libraries(yolox_trt_example ${PROJECT_NAME})
