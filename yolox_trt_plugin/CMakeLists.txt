@@ -7,11 +7,19 @@ endif()
 
 find_package(ament_cmake_auto REQUIRED)
 ament_auto_find_build_dependencies()
+find_package(CUDA REQUIRED)
 find_package(OpenCV REQUIRED)
+
+link_directories(~/TensorRT-8.6.1.6/targets/x86_64-linux-gnu/lib) # change to your TensorRT path
+set(TensorRT_INCLUDE_DIR ~/TensorRT-8.6.1.6/targets/x86_64-linux-gnu/include) # change to your TensorRT path
 
 file(GLOB_RECURSE SRCS src/*.cpp)
 ament_auto_add_library(yolox_trt_plugin SHARED
   ${SRCS}
+)
+target_include_directories(yolox_trt_plugin PUBLIC
+  ${CUDA_INCLUDE_DIRS}
+  ${TensorRT_INCLUDE_DIR}
 )
 ament_target_dependencies(${PROJECT_NAME} OpenCV)
 
