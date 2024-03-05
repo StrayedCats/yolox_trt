@@ -24,8 +24,29 @@ TensorRTのバージョンは8以降であれば特に問題なく使用でき�
 
 > なぜtar.gz？: CUDA12.2 + TensorRTの組み合わせはまだサポートされていないため、dpkgでインストールしません。
 
-tar.gzをホームディレクトリに展開します。この中には、TensorRTのライブラリやツールが含まれています。
+tar.gzを以下のようにに展開します。この中には、TensorRTのライブラリやツールが含まれています。
 
+```bash
+# 例: /usr/localが汚くなるので非推奨
+tar -xvf TensorRT-8.6.1.6.Linux.x86_64-gnu.cuda-12.0.tar.gz
+cd ~/Downloads/TensorRT-8.6.1.6
+sudo cp -r ./lib/* /usr/local/lib/
+sudo cp -r ./include/* /usr/local/include/
+
+echo "export LD_LIBRARY_PATH=LD_LIBRARY_PATH=:/usr/local/lib" >> ~/.bashrc
+```
+
+### cuDNNのダウンロード
+
+[cudnn-archive](https://developer.nvidia.com/rdp/cudnn-archive)から直近の.deb (x86) ダウンロードして、次のコマンドでインストール
+
+```bash
+# 例
+sudo dpkg -i ./cudnn-local-repo-ubuntu2204-8.9.7.29_1.0-1_amd64.deb
+sudo cp /var/cudnn-local-repo-ubuntu2204-8.9.7.29/cudnn-local-08A7D361-keyring.gpg /usr/share/keyrings/
+sudo apt update
+sudo apt install -y libcudnn8-dev
+```
 
 <br>
 
@@ -49,10 +70,7 @@ trtexecを使って、ONNXモデルをTensorRTの量子化モデルに変換し�
 trtexecで生成されたバイナリは、他のデバイス・環境で実行することはできません。
 
 ```bash
-export TRT_ROOT=${HOME}/TensorRT-8.6.1.6/targets/x86_64-linux-gnu
-export LD_LIBRARY_PATH=LD_LIBRARY_PATH=:${TRT_ROOT}/lib
-
-$TRT_ROOT/bin/trtexec --onnx=${HOME}/yolox_tiny.onnx --saveEngine=${HOME}/yolox_tiny.trt --fp16 --verbose --workspace=$((1<<16))
+trtexec --onnx=${HOME}/yolox_tiny.onnx --saveEngine=${HOME}/yolox_tiny.trt --fp16 --verbose --workspace=$((1<<16))
 ```
 
 ### TensorRTの量子化モデルの実行
